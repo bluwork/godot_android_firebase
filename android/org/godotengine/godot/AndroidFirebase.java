@@ -11,8 +11,20 @@ public class AndroidFirebase extends Godot.SingletonBase {
     public AndroidFirebase(Activity pActivity) {
         registerClass("AndroidFirebase", new String[] {
                 "init",
+                /* Admob Ads */
                 "showAdmobInterstitial",
-                "showAdmobRewardedVideo"
+                "showAdmobRewardedVideo",
+                /* Analytics */
+                "setCurrentScreen",
+                "logEarnVirtualCurrency",
+                "logSpendVirtualCurrency",
+                "logUnlockAchievement",
+                "logPostScore",
+                "logTutorialBegin",
+                "logTutorialComplete",
+                "logLevelUp",
+                "logSelectContent",
+                "logJoinGroup"
         });
 
         activity = pActivity;
@@ -33,6 +45,37 @@ public class AndroidFirebase extends Godot.SingletonBase {
 
     public void showAdmobRewardedVideo() {
         broker.showAdmobRewardedVideo();
+    }
+
+    public void setCurrentScreen(String screenName) {
+        broker.setCurrentScreen(screenName);
+    }
+    public void logEarnVirtualCurrency(String name, int value) {
+        broker.logEarnVirtualCurrency(name, value);
+    }
+    public void logSpendVirtualCurrency(String item, String name, int value) {
+        broker.logSpendVirtualCurrency(item, name, value);
+    }
+    public void logUnlockAchievement(String achievementId) {
+        broker.logUnlockAchievement(achievementId);
+    }
+    public void logPostScore(int score) {
+        broker.logPostScore(score);
+    }
+    public void logTutorialBegin() {
+        broker.logTutorialBegin();
+    }
+    public void logTutorialComplete() {
+        broker.logTutorialComplete();
+    }
+    public void logLevelUp(String character, int level) {
+        broker.logLevelUp(character, level);
+    }
+    public void logSelectContent(String contentType, String itemId) {
+        broker.logSelectContent(contentType, itemId);
+    }
+    public void logJoinGroup(String groupId) {
+        broker.logJoinGroup(groupId);
     }
 
     @Override

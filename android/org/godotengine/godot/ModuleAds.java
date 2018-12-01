@@ -45,7 +45,7 @@ public class ModuleAds {
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
-
+                Log.d(TAG, "*** Rewarded video ad loaded.");
             }
 
             @Override
@@ -75,7 +75,7 @@ public class ModuleAds {
             }
 
             @Override
-            public void onRewardedVideoAdFailedToLoad(int i) {
+            public void onRewardedVideoAdFailedToLoad(int code) {
 
             }
 
@@ -93,6 +93,7 @@ public class ModuleAds {
         interstitialAd.setAdListener(new AdListener(){
             @Override
             public void onAdLoaded() {
+                Log.d(TAG, "*** Interstitial ad loaded.");
             }
 
             @Override
@@ -130,21 +131,29 @@ public class ModuleAds {
     }
 
     public void loadAds() {
+        Log.i(TAG, "*** Loading Interstitial and Rewarded Video ad.");
         interstitialAd.loadAd(getAdRequest());
         rewardedVideoAd.loadAd(activity.getString(R.string.admob_rewarded_video_ad_unit),
                 getAdRequest());
-        Log.i(TAG, "*** Ads are loaded.");
+
     }
 
     public void showInterstitial() {
         if (interstitialAd.isLoaded()) {
             interstitialAd.show();
+        } else {
+            interstitialAd.loadAd(getAdRequest());
         }
     }
 
     public void showRewardedVideo() {
+        //TODO Need to create handler - timer which will check every time period is video loaded
+        // UI must not show reward video button if video is not loaded - bad user experience
         if (rewardedVideoAd.isLoaded()) {
             rewardedVideoAd.show();
+        } else {
+            rewardedVideoAd.loadAd(activity.getString(R.string.admob_rewarded_video_ad_unit),
+                    getAdRequest());
         }
     }
 
