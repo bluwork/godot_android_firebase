@@ -17,4 +17,5 @@ def configure(env):
         env.android_add_dependency("implementation 'com.google.firebase:firebase-config:16.1.0'")
         env.android_add_dependency("implementation 'com.google.firebase:firebase-invites:16.0.5'")
         env.android_add_dependency("implementation 'com.google.firebase:firebase-ads:17.1.1'")
+        #env.android_add_dependency("implementation 'com.google.firebase:firebase-inappmessaging-display:17.0.3'")
         env.android_add_gradle_plugin('com.google.gms.google-services')

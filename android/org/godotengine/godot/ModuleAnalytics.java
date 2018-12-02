@@ -9,9 +9,11 @@ public class ModuleAnalytics {
 
     private Activity activity;
     private FirebaseAnalytics analytics;
+    private BackMessage backMessageListener;
 
-    public ModuleAnalytics(Activity activity) {
+    public ModuleAnalytics(Activity activity, BackMessage backMessageListener) {
         this.activity = activity;
+        this.backMessageListener = backMessageListener;
         analytics = FirebaseAnalytics.getInstance(activity);
 
     }

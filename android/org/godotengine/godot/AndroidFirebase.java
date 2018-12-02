@@ -1,8 +1,10 @@
 package org.godotengine.godot;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
-public class AndroidFirebase extends Godot.SingletonBase {
+public class AndroidFirebase extends Godot.SingletonBase implements BackMessage {
 
     private Activity activity;
     private int instanceId;
@@ -24,11 +26,13 @@ public class AndroidFirebase extends Godot.SingletonBase {
                 "logTutorialComplete",
                 "logLevelUp",
                 "logSelectContent",
-                "logJoinGroup"
+                "logJoinGroup",
+                /* Remote Config */
+                "getRemoteValue"
         });
 
         activity = pActivity;
-        broker = new FirebaseBroker(activity);
+        broker = new FirebaseBroker(activity, this);
     }
 
     static public Godot.SingletonBase initialize(Activity pActivity) {
@@ -37,6 +41,8 @@ public class AndroidFirebase extends Godot.SingletonBase {
 
     public void init(final int pInstanceId) {
         instanceId = pInstanceId;
+        activity.getSharedPreferences("firebase", Activity.MODE_PRIVATE)
+                .edit().putInt("firebase_inst_id", instanceId).apply();
     }
 
     public void showAdmobInterstitial() {
@@ -78,6 +84,10 @@ public class AndroidFirebase extends Godot.SingletonBase {
         broker.logJoinGroup(groupId);
     }
 
+    public String getRemoteValue(String key) {
+        return broker.getRemoteValue(key);
+    }
+
     @Override
     protected void onMainPause() {
         broker.onPause();
@@ -92,7 +102,19 @@ public class AndroidFirebase extends Godot.SingletonBase {
 
     @Override
     protected void onMainDestroy() {
-        super.onMainDestroy();
         broker.onDestroy();
+        super.onMainDestroy();
+
+    }
+
+    @Override
+    protected void onMainActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onMainActivityResult(requestCode, resultCode, data);
+        broker.onActivityResult(requestCode, requestCode, data);
+    }
+
+    @Override
+    public void backMessage(String who, String key, String value) {
+        GodotLib.calldeferred(instanceId, "from_android", new Object[] {who, key, value});
     }
 }

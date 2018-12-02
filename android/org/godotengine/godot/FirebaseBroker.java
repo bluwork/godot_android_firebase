@@ -1,6 +1,7 @@
 package org.godotengine.godot;
 
 import android.app.Activity;
+import android.content.Intent;
 
 public class FirebaseBroker {
     private Activity activity;
@@ -9,17 +10,19 @@ public class FirebaseBroker {
     private ModuleRemoteConfig moduleRemoteConfig;
     private ModuleRealtimeDatabase moduleRealtimeDatabase;
     private ModuleAnalytics moduleAnalytics;
+    private ModuleInvites moduleInvites;
 
-    public FirebaseBroker(final Activity activity) {
+    public FirebaseBroker(final Activity activity, final BackMessage backMessageListener) {
         this.activity = activity;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                moduleAds = new ModuleAds(activity);
-                moduleCloudMessaging = new ModuleCloudMessaging(activity);
-                moduleRemoteConfig = new ModuleRemoteConfig(activity);
-                moduleRealtimeDatabase = new ModuleRealtimeDatabase(activity);
-                moduleAnalytics = new ModuleAnalytics(activity);
+                moduleAds = new ModuleAds(activity, backMessageListener);
+                moduleCloudMessaging = new ModuleCloudMessaging(activity, backMessageListener);
+                moduleRemoteConfig = new ModuleRemoteConfig(activity, backMessageListener);
+                moduleRealtimeDatabase = new ModuleRealtimeDatabase(activity, backMessageListener);
+                moduleAnalytics = new ModuleAnalytics(activity, backMessageListener);
+                moduleInvites = new ModuleInvites(activity, backMessageListener);
             }
         });
 
@@ -47,16 +50,30 @@ public class FirebaseBroker {
     /*          No need of guarding with activity.runOnUIThread()       */
 
     public void onPause() {
-        moduleAds.onPause();
+        if (moduleAds != null) {
+            moduleAds.onPause();
+        }
+
 
     }
 
     public void onResume() {
-        moduleAds.onResume();
+        if (moduleAds != null ) {
+            moduleAds.onResume();
+        }
+
     }
 
     public void onDestroy() {
-        moduleAds.onDestroy();
+        if (moduleAds != null) {
+            moduleAds.onDestroy();
+        }
+    }
+
+    public void onActivityResult(int reqCode, int respCode, Intent data) {
+        if (moduleInvites != null) {
+            moduleInvites.onActivityResult(reqCode, respCode, data);
+        }
     }
 
     /*          Analytics           */
@@ -149,5 +166,11 @@ public class FirebaseBroker {
                 moduleAnalytics.logJoinGroup(groupId);
             }
         });
+    }
+
+    /*          Remote Config           */
+
+    public String getRemoteValue(final String key) {
+                return moduleRemoteConfig.getRemoteValue(key);
     }
 }

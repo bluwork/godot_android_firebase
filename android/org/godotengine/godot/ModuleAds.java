@@ -19,6 +19,7 @@ public class ModuleAds {
     private Activity activity;
     private InterstitialAd interstitialAd;
     private RewardedVideoAd rewardedVideoAd;
+    private BackMessage backMessageListener;
 
     private final String [] ADMOB_TEST_DEVICES = {
             "00DA088B59B1645A5A9595CD9A8AA382",// S2
@@ -32,8 +33,9 @@ public class ModuleAds {
             "D13D4F10C0924E55157362B48D1BFE02"  // MI 6X    // 22nov2018
     };
 
-    public ModuleAds(Activity activity) {
+    public ModuleAds(Activity activity, BackMessage backMessageListener) {
         this.activity = activity;
+        this.backMessageListener = backMessageListener;
         MobileAds.initialize(activity, activity.getString(R.string.admob_app_id));
         initializeInterstitial();
         initializeRewardVideo();
