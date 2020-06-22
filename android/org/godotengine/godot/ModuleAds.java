@@ -21,17 +21,7 @@ public class ModuleAds {
     private RewardedVideoAd rewardedVideoAd;
     private BackMessage backMessageListener;
 
-    private final String [] ADMOB_TEST_DEVICES = {
-            "00DA088B59B1645A5A9595CD9A8AA382",// S2
-            "E39C7CB1199974CA4DF51FE39A16372C",//S5
-            "F7FBCE5D23D923370866FA470CF1C3CD",//S4 // 22nov2018
-            "BAC87072B212158391B7C39A5383EBE0", //Zopo
-            "10CB4524CF8896DC945E4B263EF18D10", //Lenovo
-            "770E16244B81BCFFF87335A72F52B5A3", // LG G4
-            "2A23D04BDC60E635336CA7ADD26C2ECD", //Lenovo mali // 22nov2018
-            "5A2CF4A6B59489E1A49FF9BE0D5DAF18", // A3
-            "D13D4F10C0924E55157362B48D1BFE02"  // MI 6X    // 22nov2018
-    };
+    private final String [] ADMOB_TEST_DEVICES = {};
 
     public ModuleAds(Activity activity, BackMessage backMessageListener) {
         this.activity = activity;
